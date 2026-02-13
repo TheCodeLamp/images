@@ -11,7 +11,7 @@ wl-clipboard \
 # ===================== GROUPS =====================
 
 dnf group install --assumeyes kde-desktop kde-apps
-dnf group install --assumeyes --with-optionals libreoffice
+dnf group install --assumeyes --with-optional libreoffice
 
 # ==================== NONFREE =====================
 
