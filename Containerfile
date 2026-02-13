@@ -46,6 +46,9 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/install-laptop.sh
 
 # https://docs.fedoraproject.org/en-US/bootc/initramfs/#_regenerating_the_initrd
-RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
+RUN echo "::group:: Build Laptop - Rebuild initramfs"; \
+set -xe; kver=$(ls /usr/lib/modules); \
+env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"; \
+echo "::endgroup::"
 
 RUN bootc container lint --fatal-warnings
