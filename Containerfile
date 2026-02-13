@@ -21,7 +21,20 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN bootc container lint --fatal-warnings
 
 
-FROM base as desktop
+FROM quay.io/fedora/fedora-kinoite:42 as desktop
+
+COPY --from=nushell /usr/bin/nu /usr/bin/nu
+RUN printf '/bin/nu\n/usr/bin/nu' >> /etc/shells
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/lib/dnf \
+    --mount=type=tmpfs,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/install-base.sh
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    /ctx/clean-base.sh
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
