@@ -1,0 +1,56 @@
+name: Build container images
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0'
+  push:
+    branches: [main]
+    paths-ignore: ['**/README.md']
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: "bootc"
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build_push:
+    name: Build and push image
+    runs-on: ubuntu-24.04
+    
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      
+      - name: Lowercase image name
+        run: |
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+
+      - name: Build images
+        run: |
+          ./build.sh base "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./build.sh desktop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./build.sh laptop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+
+      - name: Login to GHCR
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | buildah login ghcr.io -u ${{ github.actor }} --password-stdin
+      
+      - name: Push images
+        if: github.event_name != 'pull_request'
+        run: |
+          ./push.sh base "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./push.sh desktop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./push.sh laptop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
