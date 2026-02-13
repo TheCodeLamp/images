@@ -7,7 +7,7 @@ dnf install --assumeyes \
 alacritty \
 btrfs-assistant \
 solaar \
-wl-clipboard \
+wl-clipboard
 echo "::endgroup::"
 
 # ===================== GROUPS =====================
