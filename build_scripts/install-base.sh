@@ -43,6 +43,7 @@ echo "::endgroup::"
 echo "::group:: Build Base - Mullvad"
 FILE="/tmp/mullvad.rpm"
 curl -L -o $FILE https://mullvad.net/en/download/app/rpm/latest
+mkdir -p '/var/opt/Mullvad VPN'
 dnf install --assumeyes $FILE
 rm $FILE
 echo "::endgroup::"
