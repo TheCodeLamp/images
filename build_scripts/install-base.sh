@@ -12,6 +12,7 @@ fish \
 fzf \
 git \
 helix \
+rbw \
 ripgrep \
 snapper \
 unzip \
