@@ -7,6 +7,7 @@ dnf install --assumeyes \
 bat \
 bees \
 cronie \
+fd-find \
 fish \
 fzf \
 git \
