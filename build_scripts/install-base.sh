@@ -9,13 +9,13 @@ bees \
 cronie \
 fish \
 fzf \
+git \
 helix \
 ripgrep \
 snapper \
-zoxide \
-git \
-zip \
 unzip \
+zip \
+zoxide \
 
 dnf group install --assumeyes container-management
 
