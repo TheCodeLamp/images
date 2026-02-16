@@ -19,6 +19,8 @@ zoxide \
 
 dnf group install --assumeyes container-management
 
+dnf --repo=fury-carapace install --assumeyes carapace
+
 systemctl enable crond
 echo "::endgroup::"
 

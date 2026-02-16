@@ -1,0 +1,6 @@
+# https://carapace-sh.github.io/carapace-bin/install.html#yum
+[fury-carapace]
+name=Gemfury Private Repo - carapace
+baseurl=https://yum.fury.io/rsteube/
+enabled=0
+gpgcheck=0
