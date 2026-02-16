@@ -16,6 +16,7 @@ rbw \
 ripgrep \
 snapper \
 unzip \
+yt-dlp yt-dlp-fish-completions \
 zip \
 zoxide \
 
