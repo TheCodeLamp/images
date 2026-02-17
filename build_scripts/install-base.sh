@@ -29,9 +29,9 @@ dnf group install --assumeyes container-management
 dnf --repo=fury-carapace install --assumeyes carapace-bin
 
 # yazi - terminal file explorer
-dnf copr enable lihaohong/yazi
-dnf install yazi
-dnf copr disable lihaohong/yazi
+dnf --assumeyes copr enable lihaohong/yazi
+dnf --assumeyes install yazi
+dnf --assumeyes copr disable lihaohong/yazi
 
 systemctl enable crond
 echo "::endgroup::"
