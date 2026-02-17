@@ -16,13 +16,17 @@ rbw \
 ripgrep \
 snapper \
 unzip \
-yt-dlp yt-dlp-fish-completions \
+yt-dlp yt-dlp-fish-completion \
 zip \
 zoxide \
 
+dnf install --assumeyes \
+"dnf5-command(config-manager)" \
+"dnf5-command(copr)" \
+
 dnf group install --assumeyes container-management
 
-dnf --repo=fury-carapace install --assumeyes carapace
+dnf --repo=fury-carapace install --assumeyes carapace-bin
 
 # yazi - terminal file explorer
 dnf copr enable lihaohong/yazi
@@ -35,8 +39,6 @@ echo "::endgroup::"
 # =================== RPMFUSION ====================
 
 echo "::group:: Build Base - RPM Fusion"
-dnf install --assumeyes "dnf5-command(config-manager)"
-
 dnf install --assumeyes https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install --assumeyes https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
