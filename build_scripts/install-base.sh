@@ -16,6 +16,7 @@ helix \
 rbw \
 ripgrep \
 snapper \
+tcpdump \
 unzip \
 yt-dlp yt-dlp-fish-completion \
 zip \
