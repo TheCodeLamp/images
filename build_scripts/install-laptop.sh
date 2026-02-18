@@ -6,11 +6,14 @@ export DRACUT_NO_XATTR=1
 
 echo "::group:: Build Laptop - Swap to Surface kernel"
 dnf config-manager addrepo --assumeyes --from-repofile=https://pkg.surfacelinux.com/fedora/linux-surface.repo
+mkdir -p /etc/kernel/install.d
+ln -sf /dev/null /etc/kernel/install.d/05-rpmostree.install
 dnf swap --assumeyes --allowerasing kernel-core kernel-surface
 dnf swap --assumeyes --allowerasing libwacom libwacom-surface
 dnf swap --assumeyes --allowerasing libwacom-data libwacom-surface-data
 dnf install --assumeyes iptsd
-dnf install --assumeyes surface-secureboot
+# dnf install --assumeyes surface-secureboot
+rm /etc/kernel/install.d/05-rpmostree.install
 echo "::endgroup::"
 
 echo "::group:: Build Laptop - Regenerate initramfs"
