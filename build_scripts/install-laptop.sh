@@ -15,8 +15,7 @@ echo "::endgroup::"
 
 echo "::group:: Build Laptop - Regenerate initramfs"
 KERNEL_VERSION="$(rpm -q --queryformat="%{evr}.%{arch}" kernel-surface)"
-/usr/bin/dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible -v --add ostree -f "/lib/modules/${KERNEL_VERSION}/initramfs.img"
-chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
+dracut -vf "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" "${KERNEL_VERSION}"
 echo "::endgroup::"
 
 unset KERNEL_VERSION
