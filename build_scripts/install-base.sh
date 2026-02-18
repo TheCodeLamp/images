@@ -11,6 +11,7 @@ fd-find \
 fish \
 fzf \
 git \
+gitui \
 helix \
 rbw \
 ripgrep \
