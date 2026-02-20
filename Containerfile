@@ -26,7 +26,7 @@ RUN bootc container lint --fatal-warnings
 FROM quay.io/fedora/fedora-kinoite:42 as desktop
 
 COPY --from=nushell /usr/bin/nu /usr/bin/nu
-RUN printf '/bin/nu\n/usr/bin/nu' >> /etc/shells
+RUN printf '/bin/nu\n/usr/bin/nu\n' >> /etc/shells
 
 COPY yum-repos/fury.repo /etc/yum.repos.d/fury.repo
 
