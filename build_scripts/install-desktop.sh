@@ -6,8 +6,10 @@ echo "::group:: Build Desktop - Misc Packages"
 dnf install --assumeyes \
 alacritty \
 btrfs-assistant \
+plasma-browser-integration \
 solaar \
-wl-clipboard
+wl-clipboard \
+
 echo "::endgroup::"
 
 # ==================== NONFREE =====================
