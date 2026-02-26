@@ -23,7 +23,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN bootc container lint --fatal-warnings
 
 
-FROM quay.io/fedora/fedora-kinoite:42 as desktop
+FROM quay.io/fedora/fedora-kinoite:43 as desktop
 
 COPY --from=nushell /usr/bin/nu /usr/bin/nu
 RUN printf '/bin/nu\n/usr/bin/nu\n' >> /etc/shells
