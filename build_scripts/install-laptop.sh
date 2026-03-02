@@ -12,7 +12,6 @@ dnf swap --assumeyes --allowerasing kernel-core kernel-surface
 dnf swap --assumeyes --allowerasing libwacom libwacom-surface
 dnf swap --assumeyes --allowerasing libwacom-data libwacom-surface-data
 dnf install --assumeyes iptsd
-# dnf install --assumeyes surface-secureboot
 rm /etc/kernel/install.d/05-rpmostree.install
 echo "::endgroup::"
 
