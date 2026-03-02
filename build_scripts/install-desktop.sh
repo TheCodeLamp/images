@@ -8,6 +8,8 @@ alacritty \
 btrfs-assistant \
 solaar \
 wl-clipboard
+
+dnf install --repo=firefoxpwa --assumeyes firefoxpwa
 echo "::endgroup::"
 
 # ==================== NONFREE =====================
