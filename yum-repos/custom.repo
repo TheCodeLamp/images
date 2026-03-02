@@ -5,6 +5,14 @@ baseurl=https://yum.fury.io/rsteube/
 enabled=0
 gpgcheck=0
 
+# https://www.nushell.sh/book/installation.html
+[fury-nushell]
+name=Gemfury Nushell Repo
+baseurl=https://yum.fury.io/nushell/
+enabled=0
+gpgcheck=0
+gpgkey=https://yum.fury.io/nushell/gpg.key
+
 [firefoxpwa]
 name=FirefoxPWA
 metadata_expire=7d
