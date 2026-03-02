@@ -61,10 +61,3 @@ mkdir -p '/var/opt/Mullvad VPN'
 dnf install --assumeyes $FILE
 rm $FILE
 echo "::endgroup::"
-
-# ==================== Nushell =====================
-
-echo "::group:: Build Base - Nushell"
-dnf install --enablerepo=fury-nushell --assumeyes nushell
-printf '/bin/nu\n/usr/bin/nu\n' >> /etc/shells
-echo "::endgroup::"
