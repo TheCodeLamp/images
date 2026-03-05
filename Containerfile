@@ -55,6 +55,8 @@ RUN bootc container lint --fatal-warnings
 
 FROM desktop as laptop
 
+COPY dracut.conf /usr/lib/dracut/dracut.conf.d/50-custom-ostree.conf
+
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/lib/dnf \
