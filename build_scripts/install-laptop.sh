@@ -20,6 +20,19 @@ KERNEL_VERSION="$(rpm -q --queryformat="%{evr}.%{arch}" kernel-surface)"
 dracut -vf "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img" "${KERNEL_VERSION}"
 echo "::endgroup::"
 
+echo "::group:: Build Laptop - Remove old modules"
+cd /usr/lib/modules
+shopt -s dotglob nullglob
+for d in */; do
+  name="${d%/}"
+  if [ "$name" = "$KERNEL_VERSION" ]; then
+    continue
+  fi
+  rm -rf -- "$d"
+done
+cd /
+echo "::endgroup::"
+
 unset KERNEL_VERSION
 unset DRACUT_NO_XATTR
 
