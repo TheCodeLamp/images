@@ -8,7 +8,7 @@ FROM quay.io/fedora/fedora-bootc:42 as base
 COPY --from=nushell /usr/bin/nu /usr/bin/nu
 RUN printf '/bin/nu\n/usr/bin/nu' >> /etc/shells
 
-COPY yum-repos/fury.repo /etc/yum.repos.d/fury.repo
+COPY yum-repos/custom.repo /etc/yum.repos.d/custom.repo
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
@@ -26,9 +26,9 @@ RUN bootc container lint --fatal-warnings
 FROM quay.io/fedora/fedora-kinoite:43 as desktop
 
 COPY --from=nushell /usr/bin/nu /usr/bin/nu
-RUN printf '/bin/nu\n/usr/bin/nu' >> /etc/shells
+RUN printf '/bin/nu\n/usr/bin/nu\n' >> /etc/shells
 
-COPY yum-repos/fury.repo /etc/yum.repos.d/fury.repo
+COPY yum-repos/custom.repo /etc/yum.repos.d/custom.repo
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
