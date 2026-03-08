@@ -15,6 +15,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/lib/dnf \
     --mount=type=tmpfs,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    --mount=type=tmpfs,dst=/run \
     /ctx/install-base.sh
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -35,6 +36,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/lib/dnf \
     --mount=type=tmpfs,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    --mount=type=tmpfs,dst=/run \
     /ctx/install-base.sh
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -45,6 +47,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/lib/dnf \
     --mount=type=tmpfs,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    --mount=type=tmpfs,dst=/run \
     /ctx/install-desktop.sh
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -63,6 +66,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/lib/rpm-state \
     --mount=type=tmpfs,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    --mount=type=tmpfs,dst=/run \
     /ctx/install-laptop.sh
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
