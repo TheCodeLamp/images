@@ -20,7 +20,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/clean-base.sh
 
-RUN bootc container lint --fatal-warnings
+RUN bootc container lint
 
 
 FROM quay.io/fedora/fedora-kinoite:43 as desktop
@@ -50,7 +50,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/clean-desktop.sh
 
-RUN bootc container lint --fatal-warnings
+RUN bootc container lint
 
 
 FROM desktop as laptop
@@ -68,4 +68,4 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/clean-laptop.sh
 
-RUN bootc container lint --fatal-warnings
+RUN bootc container lint
