@@ -55,9 +55,15 @@ echo "::endgroup::"
 # ==================== MULLVAD =====================
 
 echo "::group:: Build Base - Mullvad"
+cat > /usr/lib/tmpfiles.d/mullvad-opt-compat.conf <<'EOF'
+L "/var/opt/Mullvad VPN" - - - - "/usr/lib/Mullvad VPN"
+EOF
+mkdir -p "/usr/lib/Mullvad VPN"
+ln -s "/var/opt/Mullvad VPN" "/usr/lib/Mullvad VPN"
+
 FILE="/tmp/mullvad.rpm"
 curl -L -o $FILE https://mullvad.net/en/download/app/rpm/latest
-mkdir -p '/var/opt/Mullvad VPN'
 dnf install --assumeyes $FILE
 rm $FILE
+unset FILE
 echo "::endgroup::"
