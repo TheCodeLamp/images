@@ -57,7 +57,7 @@ echo "::endgroup::"
 echo "::group:: Build Base - Mullvad"
 systemd-tmpfiles --create /usr/lib/tmpfiles.d/rpm-ostree-0-integration-opt-usrlocal.conf
 cat > /usr/lib/tmpfiles.d/mullvad-opt-compat.conf <<'EOF'
-L "/var/opt/Mullvad VPN" - - - - "/usr/lib/Mullvad VPN"
+L /var/opt/Mullvad\x20VPN - - - - /usr/lib/Mullvad\x20VPN
 EOF
 mkdir -p "/usr/lib/Mullvad VPN"
 ln -sf "/usr/lib/Mullvad VPN" "/opt/Mullvad VPN"
