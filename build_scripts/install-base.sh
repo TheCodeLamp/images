@@ -60,7 +60,9 @@ cat > /usr/lib/tmpfiles.d/mullvad-opt-compat.conf <<'EOF'
 L "/var/opt/Mullvad VPN" - - - - "/usr/lib/Mullvad VPN"
 EOF
 mkdir -p "/usr/lib/Mullvad VPN"
+ln -sf "/usr/lib/Mullvad VPN" "/opt/Mullvad VPN"
 systemd-tmpfiles --create /usr/lib/tmpfiles.d/mullvad-opt-compat.conf
+
 FILE="/tmp/mullvad.rpm"
 curl -L -o $FILE https://mullvad.net/en/download/app/rpm/latest
 dnf install --assumeyes $FILE
