@@ -10,6 +10,10 @@ solaar \
 wl-clipboard
 
 dnf install --repo=firefoxpwa --assumeyes firefoxpwa
+
+dnf --assumeyes copr enable wezfurlong/wezterm-nightly
+dnf --assumeyes install wezterm
+dnf --assumeyes copr disable wezfurlong/wezterm-nightly
 echo "::endgroup::"
 
 # ==================== NONFREE =====================
