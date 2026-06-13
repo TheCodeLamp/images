@@ -11,9 +11,9 @@ wl-clipboard
 
 dnf install --repo=firefoxpwa --assumeyes firefoxpwa
 
-dnf copr enable wezfurlong/wezterm-nightly
-dnf install wezterm
-dnf copr disable wezfurlong/wezterm-nightly
+dnf --assumeyes copr enable wezfurlong/wezterm-nightly
+dnf --assumeyes install wezterm
+dnf --assumeyes copr disable wezfurlong/wezterm-nightly
 echo "::endgroup::"
 
 # ==================== NONFREE =====================
