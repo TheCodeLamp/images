@@ -42,6 +42,8 @@ curl -L -o $FILE $URL
 unzip -o -d $"$FONTS_FOLDER/RobotoMono" $FILE
 rm $FILE
 
+fc-cache -rsv
+
 unset FILE
 unset FONTS_FOLDER
 unset URL
