@@ -39,11 +39,11 @@ FONTS_FOLDER="/usr/share/fonts/${FONT_NAME}"
 URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT_NAME}.tar.xz"
 TMPFILE="$(mktemp /tmp/${FONT_NAME}.XXXXXX.tar.xz)"
 
-trap 'rm -f "$TMPFILE"' EXIT
-
 mkdir -p "$FONTS_FOLDER"
 curl -fL -o "$TMPFILE" "$URL"
 tar -xJf "$TMPFILE" -C "$FONTS_FOLDER"
+
+rm -f "$TMPFILE"
 
 fc-cache -f "$FONTS_FOLDER"
 
