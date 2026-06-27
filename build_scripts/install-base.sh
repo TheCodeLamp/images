@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ouex pipefail
+set -uexo pipefail
 
 echo "::group:: Build Base - Misc Packages"
 dnf install --assumeyes \
@@ -63,9 +63,9 @@ EOF
 mkdir -p "/usr/lib/Mullvad VPN"
 systemd-tmpfiles --create /usr/lib/tmpfiles.d/mullvad-opt-compat.conf
 
-FILE="/tmp/mullvad.rpm"
-curl -L -o $FILE https://mullvad.net/en/download/app/rpm/latest
-dnf install --assumeyes $FILE
-rm $FILE
+FILE="$(mktemp --suffix=.rpm)"
+curl -fL -o "$FILE" https://mullvad.net/en/download/app/rpm/latest
+dnf install --assumeyes "$FILE"
+rm -f "$FILE"
 unset FILE
 echo "::endgroup::"
