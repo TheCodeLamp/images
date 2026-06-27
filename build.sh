@@ -12,7 +12,7 @@ TIMESTAMP=$(date -u +%Y%m%d)
 
 echo "Building ${VARIANT} variant of ${FULL_IMAGE}"
 
-buildah build --target="${VARIANT}" -t "${FULL_IMAGE}:${VARIANT}" .
+buildah build --layers --target="${VARIANT}" -t "${FULL_IMAGE}:${VARIANT}" .
 buildah tag "${FULL_IMAGE}:${VARIANT}" "${FULL_IMAGE}:${VARIANT}-${TIMESTAMP}"
 
 echo "Successfully built ${VARIANT} variant with tags:"
