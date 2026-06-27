@@ -20,43 +20,38 @@ concurrency:
 
 jobs:
   build_push:
-    name: Build and push images
+    name: Build and push ${{ matrix.variant }} image
     runs-on: ubuntu-24.04
-    
+
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [base, desktop, laptop]
+
     permissions:
       contents: read
       packages: write
       id-token: write
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      
+
       - name: Lowercase image name
         run: |
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
 
-      - name: Build base image
+      - name: Build ${{ matrix.variant }} image
         run: |
-          ./build.sh base "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
-
-      - name: Build desktop image
-        run: |
-          ./build.sh desktop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
-
-      - name: Build laptop image
-        run: |
-          ./build.sh laptop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
 
       - name: Login to GHCR
         if: github.event_name != 'pull_request'
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | buildah login ghcr.io -u ${{ github.actor }} --password-stdin
-      
-      - name: Push all images
+
+      - name: Push ${{ matrix.variant }} image
         if: github.event_name != 'pull_request'
         run: |
-          ./push.sh base "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
-          ./push.sh desktop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
-          ./push.sh laptop "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./push.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
