@@ -33,18 +33,25 @@ echo "::endgroup::"
 # ===================== FONTS ======================
 
 echo "::group:: Build Desktop - Fonts"
-FILE="/tmp/RobotoMono.zip"
-FONTS_FOLDER="/usr/share/fonts"
-URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/RobotoMono.zip"
 
-mkdir -p $FONTS_FOLDER
-curl -L -o $FILE $URL
-unzip -o -d $"$FONTS_FOLDER/RobotoMono" $FILE
-rm $FILE
+FONT_NAME="RobotoMono"
+FONTS_FOLDER="/usr/share/fonts/${FONT_NAME}"
+URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT_NAME}.tar.xz"
+TMPFILE="$(mktemp /tmp/${FONT_NAME}.XXXXXX.tar.xz)"
 
-unset FILE
+mkdir -p "$FONTS_FOLDER"
+curl -fL -o "$TMPFILE" "$URL"
+tar -xJf "$TMPFILE" -C "$FONTS_FOLDER"
+
+rm -f "$TMPFILE"
+
+fc-cache -vf "$FONTS_FOLDER"
+
+unset FONT_NAME
 unset FONTS_FOLDER
 unset URL
+unset TMPFILE
+
 echo "::endgroup::"
 
 # =================== LIBREWOLF ====================
