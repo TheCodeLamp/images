@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ouex pipefail
+set -uexo pipefail
 
 export DRACUT_NO_XATTR=1
 

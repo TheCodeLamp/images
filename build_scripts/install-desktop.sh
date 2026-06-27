@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ouex pipefail
+set -uexo pipefail
 
 echo "::group:: Build Desktop - Misc Packages"
 dnf install --assumeyes \
