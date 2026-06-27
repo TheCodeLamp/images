@@ -63,5 +63,5 @@ EOF
 mkdir -p "/usr/lib/Mullvad VPN"
 systemd-tmpfiles --create /usr/lib/tmpfiles.d/mullvad-opt-compat.conf
 
-dnf --repo=mullvad-stable install --assumeyes mullvad-vpn
+dnf --enable-repo=mullvad-stable install --assumeyes mullvad-vpn
 echo "::endgroup::"
