@@ -45,7 +45,7 @@ tar -xJf "$TMPFILE" -C "$FONTS_FOLDER"
 
 rm -f "$TMPFILE"
 
-fc-cache -f "$FONTS_FOLDER"
+fc-cache -vf "$FONTS_FOLDER"
 
 unset FONT_NAME
 unset FONTS_FOLDER
