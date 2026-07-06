@@ -30,3 +30,10 @@ type=rpm
 enabled=0
 gpgcheck=1
 gpgkey=https://repository.mullvad.net/rpm/mullvad-keyring.asc
+
+[gemfury-nushell]
+name=Gemfury Nushell Repo
+baseurl=https://yum.fury.io/nushell/
+enabled=0
+gpgcheck=1
+gpgkey=https://yum.fury.io/nushell/gpg.key
