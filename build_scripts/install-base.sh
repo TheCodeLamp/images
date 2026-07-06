@@ -30,6 +30,8 @@ dnf group install --assumeyes container-management
 
 dnf --repo=fury-carapace install --assumeyes carapace-bin
 
+dnf --repo=gemfury-nushell install --assumeyes nushell
+
 # yazi - terminal file explorer
 dnf --assumeyes copr enable lihaohong/yazi
 dnf --assumeyes install yazi
