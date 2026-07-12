@@ -6,8 +6,9 @@ echo "::group:: Build Desktop - Misc Packages"
 dnf install --assumeyes \
 alacritty \
 btrfs-assistant \
+fira-code-fonts \
 solaar \
-wl-clipboard
+wl-clipboard\
 
 dnf install --repo=firefoxpwa --assumeyes firefoxpwa
 
