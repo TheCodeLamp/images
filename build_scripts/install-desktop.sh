@@ -26,6 +26,9 @@ dnf install --assumeyes --allowerasing @multimedia --setopt="install_weak_deps=F
 
 dnf install --assumeyes --allowerasing \
 megasync dolphin-megasync \
+dxvk \
+gamescope \
+mangohud \
 steam \
 
 dnf config-manager setopt "rpmfusion*".enabled=0
