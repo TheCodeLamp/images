@@ -26,7 +26,7 @@ dnf install --assumeyes --allowerasing @multimedia --setopt="install_weak_deps=F
 
 dnf install --assumeyes --allowerasing \
 megasync dolphin-megasync \
-dxvk \
+dxvk-native wine-dxvk \
 gamescope \
 mangohud \
 steam \
