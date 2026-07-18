@@ -29,7 +29,10 @@ megasync dolphin-megasync \
 dxvk-native wine-dxvk \
 gamescope \
 mangohud \
+protontricks \
 steam \
+wine \
+winetricks \
 
 dnf config-manager setopt "rpmfusion*".enabled=0
 echo "::endgroup::"
