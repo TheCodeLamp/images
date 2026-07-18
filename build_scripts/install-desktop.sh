@@ -25,7 +25,8 @@ dnf config-manager setopt "rpmfusion*".enabled=1
 dnf install --assumeyes --allowerasing @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 
 dnf install --assumeyes --allowerasing \
-megasync dolphin-megasync
+megasync dolphin-megasync \
+steam \
 
 dnf config-manager setopt "rpmfusion*".enabled=0
 echo "::endgroup::"
