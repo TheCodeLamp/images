@@ -8,7 +8,9 @@ alacritty \
 btrfs-assistant \
 fira-code-fonts \
 solaar \
-wl-clipboard\
+wl-clipboard \
+glibc-devel.i686 libstdc++-devel.i686 vulkan-loader.i686 libX11.i686 \
+vulkan-tools vulkan-loader mesa-libvulkan mesa-libGL \
 
 dnf install --repo=firefoxpwa --assumeyes firefoxpwa
 
