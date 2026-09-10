@@ -13,7 +13,6 @@ fzf \
 git \
 gitui \
 helix \
-nix-core \
 rbw \
 ripgrep \
 snapper \
@@ -66,3 +65,28 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/mullvad-opt-compat.conf
 
 dnf --enable-repo=mullvad-stable install --assumeyes mullvad-vpn
 echo "::endgroup::"
+
+# ====================== NIX =======================
+
+echo "::group:: Build Base - Nix Package Manager"
+dnf install --assumeyes nix
+rm -rf /nix/*
+cat > /usr/lib/tmpfiles.d/var-nix.conf <<'EOF'
+d /var/nix 0755 root root -
+EOF
+cat > /usr/lib/systemd/system/var-nix.mount <<'EOF'
+[Unit]
+Description=Bind mount /var/nix to /nix for Nix store
+Before=nix-daemon.service
+After=var.mount
+
+[Mount]
+What=/var/nix
+Where=/nix
+Type=none
+Options=bind
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable var-nix.mount
