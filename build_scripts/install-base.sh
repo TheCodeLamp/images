@@ -78,7 +78,7 @@ cat > /usr/lib/systemd/system/nix.mount <<'EOF'
 [Unit]
 Description=Bind mount /var/nix to /nix for Nix store
 Before=nix-daemon.service
-After=var.mount
+RequiresMountsFor=/var/nix
 
 [Mount]
 What=/var/nix
