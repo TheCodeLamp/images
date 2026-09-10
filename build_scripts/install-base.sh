@@ -89,4 +89,4 @@ Options=bind
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable var-nix.mount
+systemctl enable nix.mount
