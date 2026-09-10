@@ -13,7 +13,7 @@ fzf \
 git \
 gitui \
 helix \
-nix \
+nix-core \
 rbw \
 ripgrep \
 snapper \
