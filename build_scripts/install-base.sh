@@ -74,11 +74,11 @@ rm -rf /nix/*
 cat > /usr/lib/tmpfiles.d/var-nix.conf <<'EOF'
 d /var/nix 0755 root root -
 EOF
-cat > /usr/lib/systemd/system/var-nix.mount <<'EOF'
+cat > /usr/lib/systemd/system/nix.mount <<'EOF'
 [Unit]
 Description=Bind mount /var/nix to /nix for Nix store
 Before=nix-daemon.service
-After=var.mount
+RequiresMountsFor=/var/nix
 
 [Mount]
 What=/var/nix
@@ -89,4 +89,4 @@ Options=bind
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable var-nix.mount
+systemctl enable nix.mount
