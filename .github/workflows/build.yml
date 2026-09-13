@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 0   # paths-filter needs history to diff against on push events
 
       - name: Detect changed layers
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
