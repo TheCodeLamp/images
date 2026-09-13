@@ -19,28 +19,85 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Determine which variants need building
+    runs-on: ubuntu-24.04
+    outputs:
+      variants: ${{ steps.set-matrix.outputs.variants }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # paths-filter needs history to diff against on push events
+
+      - name: Detect changed layers
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shared:
+              - '.github/workflows/build.yml'
+              - 'yum-repos/**'
+              - 'build.sh'
+              - 'push.sh'
+              - 'build_scripts/install-base.sh'
+              - 'build_scripts/clean-base.sh'
+            base:
+              - 'Containerfile.base'
+            desktop:
+              - 'Containerfile.desktop'
+              - 'build_scripts/install-desktop.sh'
+              - 'build_scripts/clean-desktop.sh'
+            laptop:
+              - 'Containerfile.laptop'
+              - 'build_scripts/install-desktop.sh'
+              - 'build_scripts/clean-desktop.sh'
+              - 'build_scripts/install-laptop.sh'
+              - 'build_scripts/clean-laptop.sh'
+              - 'dracut.conf'
+
+      - name: Build matrix list
+        id: set-matrix
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo 'variants=["base","desktop","laptop"]' >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          variants=()
+          [ "${{ steps.filter.outputs.shared }}"  = "true" ] && variants+=("base" "desktop" "laptop")
+          [ "${{ steps.filter.outputs.base }}"    = "true" ] && variants+=("base")
+          [ "${{ steps.filter.outputs.desktop }}" = "true" ] && variants+=("desktop")
+          [ "${{ steps.filter.outputs.laptop }}"  = "true" ] && variants+=("laptop")
+
+          unique=$(printf '%s\n' "${variants[@]}" | sort -u | jq -R . | jq -s -c 'map(select(length > 0))')
+          echo "variants=${unique}" >> "${GITHUB_OUTPUT}"
+
   build_push:
     name: Build and push ${{ matrix.variant }} image
+    needs: changes
+    if: needs.changes.outputs.variants != '[]'
     runs-on: ubuntu-24.04
+    timeout-minutes: 40
 
     strategy:
       fail-fast: false
       matrix:
-        variant: [base, desktop, laptop]
+        variant: ${{ fromJson(needs.changes.outputs.variants) }}
 
     permissions:
       contents: read
       packages: write
-      id-token: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Lowercase image name
+      - name: Set build env vars
         run: |
-          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
-          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> "${GITHUB_ENV}"
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> "${GITHUB_ENV}"
+          echo "TIMESTAMP=$(date -u +%Y%m%d)" >> "${GITHUB_ENV}"
 
       - name: Login to GHCR
         run: |
@@ -50,9 +107,9 @@ jobs:
         run: |
           CACHE_PUSH="false"
           if [ "${{ github.event_name }}" != "pull_request" ]; then CACHE_PUSH="true"; fi
-          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" $CACHE_PUSH
+          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" $CACHE_PUSH "${{ env.TIMESTAMP }}"
 
       - name: Push ${{ matrix.variant }} image
         if: github.event_name != 'pull_request'
         run: |
-          ./push.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./push.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" "${{ env.TIMESTAMP }}"

@@ -6,9 +6,9 @@ set -ouex pipefail
 VARIANT=${1:?VARIANT required (base|desktop|laptop)}
 IMAGE_NAME=${2:?IMAGE_NAME required}
 IMAGE_REGISTRY=${3:?IMAGE_REGISTRY required}
+TIMESTAMP=${4:?TIMESTAMP required}
 
 FULL_IMAGE="${IMAGE_REGISTRY}/${IMAGE_NAME}"
-TIMESTAMP=$(date -u +%Y%m%d)
 
 echo "Pushing ${VARIANT} variant of ${FULL_IMAGE}"
 

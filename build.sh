@@ -7,10 +7,10 @@ VARIANT=${1:?VARIANT required (base|desktop|laptop)}
 IMAGE_NAME=${2:?IMAGE_NAME required}
 IMAGE_REGISTRY=${3:?IMAGE_REGISTRY required}
 CACHE_PUSH=${4:?CACHE_PUSH required (true|false)}
+TIMESTAMP=${5:?TIMESTAMP required}
 
 FULL_IMAGE="${IMAGE_REGISTRY}/${IMAGE_NAME}"
 CACHE_REPO="${FULL_IMAGE}-cache-${VARIANT}"
-TIMESTAMP=$(date -u +%Y%m%d)
 
 echo "$(buildah --version)"
 
