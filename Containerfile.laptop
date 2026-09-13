@@ -3,7 +3,7 @@ COPY build_scripts /
 
 FROM ghcr.io/nushell/nushell:latest-alpine as nushell
 
-FROM quay.io/fedora/fedora-kinoite:43 as laptop
+FROM quay.io/fedora/fedora-kinoite:43
 
 COPY dracut.conf /usr/lib/dracut/dracut.conf.d/50-custom-ostree.conf
 

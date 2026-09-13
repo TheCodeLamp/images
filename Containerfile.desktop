@@ -3,7 +3,7 @@ COPY build_scripts /
 
 FROM ghcr.io/nushell/nushell:latest-alpine as nushell
 
-FROM quay.io/fedora/fedora-kinoite:44 as desktop
+FROM quay.io/fedora/fedora-kinoite:44
 
 COPY --from=nushell /usr/bin/nu /usr/bin/nu
 RUN printf '/bin/nu\n/usr/bin/nu\n' >> /etc/shells
