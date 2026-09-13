@@ -37,10 +37,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Lowercase image name
+      - name: Set build env vars
         run: |
-          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
-          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> "${GITHUB_ENV}"
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> "${GITHUB_ENV}"
+          echo "TIMESTAMP=$(date -u +%Y%m%d)" >> "${GITHUB_ENV}"
 
       - name: Login to GHCR
         run: |
@@ -50,9 +51,9 @@ jobs:
         run: |
           CACHE_PUSH="false"
           if [ "${{ github.event_name }}" != "pull_request" ]; then CACHE_PUSH="true"; fi
-          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" $CACHE_PUSH
+          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" $CACHE_PUSH "${{ env.TIMESTAMP }}"
 
       - name: Push ${{ matrix.variant }} image
         if: github.event_name != 'pull_request'
         run: |
-          ./push.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./push.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" "${{ env.TIMESTAMP }}"
