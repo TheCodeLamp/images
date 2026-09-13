@@ -10,6 +10,8 @@ IMAGE_REGISTRY=${3:?IMAGE_REGISTRY required}
 FULL_IMAGE="${IMAGE_REGISTRY}/${IMAGE_NAME}"
 TIMESTAMP=$(date -u +%Y%m%d)
 
+echo "buildah version: $(buildah --version)"
+
 # Pin a chunkah release for reproducible builds; bump deliberately.
 # Check https://github.com/coreos/chunkah/releases for newer tags.
 CHUNKAH_VERSION="v0.6.0"
@@ -46,6 +48,7 @@ buildah build \
   --build-arg CHUNKAH_CONFIG_STR="${CHUNKAH_CONFIG_STR}" \
   --build-arg CHUNKAH_ARGS="--prune /sysroot/ --max-layers 128 --label ostree.commit- --label ostree.final-diffid-" \
   -t "${FULL_IMAGE}:${VARIANT}" \
+  -v "$(pwd):/run/src" --security-opt label=disable \
   "${CHUNKAH_SPLITTER_URL}"
 
 buildah tag "${FULL_IMAGE}:${VARIANT}" "${FULL_IMAGE}:${VARIANT}-${TIMESTAMP}"
