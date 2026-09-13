@@ -90,3 +90,4 @@ Options=bind
 WantedBy=multi-user.target
 EOF
 systemctl enable nix.mount
+echo "::endgroup::"
