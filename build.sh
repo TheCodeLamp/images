@@ -8,6 +8,7 @@ IMAGE_NAME=${2:?IMAGE_NAME required}
 IMAGE_REGISTRY=${3:?IMAGE_REGISTRY required}
 
 FULL_IMAGE="${IMAGE_REGISTRY}/${IMAGE_NAME}"
+CACHE_REPO="${FULL_IMAGE}-cache-${VARIANT}"
 TIMESTAMP=$(date -u +%Y%m%d)
 
 echo "$(buildah --version)"
@@ -21,6 +22,12 @@ UNCHUNKED_TAG="localhost/${IMAGE_NAME}-${VARIANT}-unchunked:latest"
 
 echo "Building ${VARIANT} variant of ${FULL_IMAGE}"
 
+BUILD_ARGS=(--layers --cache-from "${CACHE_REPO}")
+if [[ -v CACHE_PUSH ]]; then
+  BUILD_ARGS+=(--cache-to "${CACHE_REPO}")
+fi
+
+buildah build "${BUILD_ARGS[@]}" -f "Containerfile.${VARIANT}" -t "${UNCHUNKED_TAG}" .
 
 CHUNKAH_CONFIG_STR=$(buildah inspect --type image "${UNCHUNKED_TAG}")
 
