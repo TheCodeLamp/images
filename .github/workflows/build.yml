@@ -26,7 +26,7 @@ jobs:
       variants: ${{ steps.set-matrix.outputs.variants }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0   # paths-filter needs history to diff against on push events
 
@@ -91,7 +91,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set build env vars
         run: |
