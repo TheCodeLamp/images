@@ -30,7 +30,7 @@ fi
 
 buildah build "${BUILD_ARGS[@]}" -f "Containerfile.${VARIANT}" -t "${UNCHUNKED_TAG}" .
 
-CHUNKAH_CONFIG_STR=$(buildah inspect --type image "${UNCHUNKED_TAG}")
+CHUNKAH_CONFIG_STR=$(podman inspect "${UNCHUNKED_TAG}")
 
 #    --skip-unused-stages=false   required by chunkah's splitter flow
 #    --prune /sysroot/            strips the embedded OSTree repo,
