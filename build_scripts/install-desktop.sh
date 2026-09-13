@@ -38,30 +38,6 @@ winetricks \
 dnf config-manager setopt "rpmfusion*".enabled=0
 echo "::endgroup::"
 
-# ===================== FONTS ======================
-
-echo "::group:: Build Desktop - Fonts"
-
-FONT_NAME="RobotoMono"
-FONTS_FOLDER="/usr/share/fonts/${FONT_NAME}"
-URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT_NAME}.tar.xz"
-TMPFILE="$(mktemp /tmp/${FONT_NAME}.XXXXXX.tar.xz)"
-
-mkdir -p "$FONTS_FOLDER"
-curl -fL -o "$TMPFILE" "$URL"
-tar -xJf "$TMPFILE" -C "$FONTS_FOLDER"
-
-rm -f "$TMPFILE"
-
-fc-cache -vf "$FONTS_FOLDER"
-
-unset FONT_NAME
-unset FONTS_FOLDER
-unset URL
-unset TMPFILE
-
-echo "::endgroup::"
-
 # =================== LIBREWOLF ====================
 
 echo "::group:: Build Desktop - Librewolf"
