@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "description": "Hold Fedora images",
+      "matchFileNames": ["Containerfile.base", "Containerfile.desktop", "Containerfile.laptop"],
+      "matchDatasources": ["docker"],
+      "allowedVersions": "/^44$/"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["build.sh"],
+      "matchStrings": ["CHUNKAH_VERSION=\"(?<currentValue>.*?)\""],
+      "depNameTemplate": "coreos/chunkah",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
+}
