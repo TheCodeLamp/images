@@ -6,11 +6,13 @@ set -ouex pipefail
 VARIANT=${1:?VARIANT required (base|desktop|laptop)}
 IMAGE_NAME=${2:?IMAGE_NAME required}
 IMAGE_REGISTRY=${3:?IMAGE_REGISTRY required}
+CACHE_PUSH=${4:?CACHE_PUSH required (true|false)}
 
 FULL_IMAGE="${IMAGE_REGISTRY}/${IMAGE_NAME}"
+CACHE_REPO="${FULL_IMAGE}-cache-${VARIANT}"
 TIMESTAMP=$(date -u +%Y%m%d)
 
-echo "buildah version: $(buildah --version)"
+echo "$(buildah --version)"
 
 # Pin a chunkah release for reproducible builds; bump deliberately.
 # Check https://github.com/coreos/chunkah/releases for newer tags.
@@ -21,16 +23,15 @@ UNCHUNKED_TAG="localhost/${IMAGE_NAME}-${VARIANT}-unchunked:latest"
 
 echo "Building ${VARIANT} variant of ${FULL_IMAGE}"
 
-# 1. Build exactly as before, but into a throwaway local tag. This has
-#    normal Dockerfile-shaped layers (one per RUN/COPY).
-buildah build -f "Containerfile.${VARIANT}" -t "${UNCHUNKED_TAG}" .
+BUILD_ARGS=(--layers --cache-from "${CACHE_REPO}")
+if [[ "${CACHE_PUSH}" == "true" ]]; then
+  BUILD_ARGS+=(--cache-to "${CACHE_REPO}")
+fi
 
-# 2. Capture the image's config/labels (incl. containers.bootc=1 and
-#    versioning info) before chunkah rebuilds it - the splitter flow
-#    below doesn't carry these over on its own.
+buildah build "${BUILD_ARGS[@]}" -f "Containerfile.${VARIANT}" -t "${UNCHUNKED_TAG}" .
+
 CHUNKAH_CONFIG_STR=$(buildah inspect --type image "${UNCHUNKED_TAG}")
 
-# 3. Rechunk into content-based layers.
 #    --skip-unused-stages=false   required by chunkah's splitter flow
 #    --prune /sysroot/            strips the embedded OSTree repo,
 #                                  turning this into a "plain" image
@@ -55,7 +56,3 @@ buildah tag "${FULL_IMAGE}:${VARIANT}" "${FULL_IMAGE}:${VARIANT}-${TIMESTAMP}"
 
 # Clean up the intermediate unchunked image.
 buildah rmi "${UNCHUNKED_TAG}" || true
-
-echo "Successfully built ${VARIANT} variant with tags:"
-echo "  - ${FULL_IMAGE}:${VARIANT}"
-echo "  - ${FULL_IMAGE}:${VARIANT}-${TIMESTAMP}"
