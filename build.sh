@@ -6,6 +6,7 @@ set -ouex pipefail
 VARIANT=${1:?VARIANT required (base|desktop|laptop)}
 IMAGE_NAME=${2:?IMAGE_NAME required}
 IMAGE_REGISTRY=${3:?IMAGE_REGISTRY required}
+CACHE_PUSH=${4:?CACHE_PUSH required (true|false)}
 
 FULL_IMAGE="${IMAGE_REGISTRY}/${IMAGE_NAME}"
 CACHE_REPO="${FULL_IMAGE}-cache-${VARIANT}"
@@ -23,7 +24,7 @@ UNCHUNKED_TAG="localhost/${IMAGE_NAME}-${VARIANT}-unchunked:latest"
 echo "Building ${VARIANT} variant of ${FULL_IMAGE}"
 
 BUILD_ARGS=(--layers --cache-from "${CACHE_REPO}")
-if [[ -v CACHE_PUSH ]]; then
+if [[ "${CACHE_PUSH}" == "true" ]]; then
   BUILD_ARGS+=(--cache-to "${CACHE_REPO}")
 fi
 

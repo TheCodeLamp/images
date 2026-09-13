@@ -48,8 +48,9 @@ jobs:
 
       - name: Build ${{ matrix.variant }} image
         run: |
+          CACHE_PUSH="false"
           if [ "${{ github.event_name }}" != "pull_request" ]; then CACHE_PUSH="true"; fi
-          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}"
+          ./build.sh "${{ matrix.variant }}" "${{ env.IMAGE_NAME }}" "${{ env.IMAGE_REGISTRY }}" $CACHE_PUSH
 
       - name: Push ${{ matrix.variant }} image
         if: github.event_name != 'pull_request'
