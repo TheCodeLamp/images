@@ -93,6 +93,6 @@ systemctl enable nix.mount
 echo "::endgroup::"
 
 # =================== PROTONVPN ====================
-echo "::group:: Build Base - Nix Package Manager"
+echo "::group:: Build Base - Proton VPN"
 dnf install --assumeyes protonvpn-cli
 echo "::endgroup::"
