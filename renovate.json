@@ -16,6 +16,15 @@
       "matchStrings": ["CHUNKAH_VERSION=\"(?<currentValue>.*?)\""],
       "depNameTemplate": "coreos/chunkah",
       "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["build_scripts/install-base.sh"],
+      "matchStrings": ["PROTONVPN_VERSION=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "ProtonVPN/proton-vpn-cli",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "versioningTemplate": "semver"
     }
   ]
 }
