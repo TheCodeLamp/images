@@ -91,3 +91,8 @@ WantedBy=multi-user.target
 EOF
 systemctl enable nix.mount
 echo "::endgroup::"
+
+# =================== PROTONVPN ====================
+echo "::group:: Build Base - Nix Package Manager"
+dnf install --assumeyes protonvpn-cli
+echo "::endgroup::"
