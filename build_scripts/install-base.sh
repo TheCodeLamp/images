@@ -2,6 +2,22 @@
 
 set -ouex pipefail
 
+# =================== PROTONVPN ====================
+echo "::group:: Build Base - pvpn - Proton VPN client"
+TMP=$(mktemp -d)
+PRE_WD=$(pwd)
+cd $TMP
+PVPN_VERSION="1.0.4"
+for bin in pvpn pvpnd pvpnctl; do
+    curl -fsSL -o "${bin}" "https://github.com/YourDoritos/pVPN/releases/download/v${PVPN_VERSION}/${bin}-linux-amd64"
+    install -Dm755 "${bin}" "/usr/bin/${bin}"
+done
+cd "${PRE_WD}"
+unset TMP
+unset PRE_WD
+echo "::endgroup::"
+
+
 echo "::group:: Build Base - Misc Packages"
 dnf install --assumeyes \
 bat \
@@ -91,3 +107,4 @@ WantedBy=multi-user.target
 EOF
 systemctl enable nix.mount
 echo "::endgroup::"
+
