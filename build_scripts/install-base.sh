@@ -2,6 +2,17 @@
 
 set -ouex pipefail
 
+# =================== PROTONVPN ====================
+echo "::group:: Build Base - Proton VPN"
+PROTONVPN_VERSION="1.0.4"
+PROTONVPN_FILE=/tmp/protonvpn-release.rpm
+curl -fsSL "https://repo.protonvpn.com/fedora-$(rpm -E %fedora)-stable/protonvpn-stable-release/protonvpn-stable-release-${PROTONVPN_VERSION}-1.noarch.rpm" -o ${PROTONVPN_FILE}
+dnf install --assumeyes ${PROTONVPN_FILE}
+dnf install --assumeyes proton-vpn-cli
+rm ${PROTONVPN_FILE}
+echo "::endgroup::"
+
+
 echo "::group:: Build Base - Misc Packages"
 dnf install --assumeyes \
 bat \
@@ -92,12 +103,3 @@ EOF
 systemctl enable nix.mount
 echo "::endgroup::"
 
-# =================== PROTONVPN ====================
-echo "::group:: Build Base - Proton VPN"
-PROTONVPN_VERSION="1.0.4"
-PROTONVPN_FILE=/tmp/protonvpn-release.rpm
-curl -fsSL "https://repo.protonvpn.com/fedora-$(rpm -E %fedora)-stable/protonvpn-stable-release/protonvpn-stable-release-${PROTONVPN_VERSION}-1.noarch.rpm" -o ${PROTONVPN_FILE}
-dnf install --assumeyes ${PROTONVPN_FILE}
-dnf install --assumeyes proton-vpn-cli
-rm ${PROTONVPN_FILE}
-echo "::endgroup::"
