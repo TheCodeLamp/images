@@ -16,7 +16,7 @@ echo "$(buildah --version)"
 
 # Pin a chunkah release for reproducible builds; bump deliberately.
 # Check https://github.com/coreos/chunkah/releases for newer tags.
-CHUNKAH_VERSION="v0.6.0"
+CHUNKAH_VERSION="v0.7.1"
 CHUNKAH_SPLITTER_URL="https://github.com/coreos/chunkah/releases/download/${CHUNKAH_VERSION}/Containerfile.splitter"
 
 UNCHUNKED_TAG="localhost/${IMAGE_NAME}-${VARIANT}-unchunked:latest"
