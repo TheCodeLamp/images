@@ -14,7 +14,7 @@
       "matchDatasources": [
         "docker"
       ],
-      "allowedVersions": "/^44$/"
+      "allowedVersions": "/^45$/"
     }
   ],
   "customManagers": [
