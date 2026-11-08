@@ -10,6 +10,11 @@ COPY dracut.conf /usr/lib/dracut/dracut.conf.d/50-custom-ostree.conf
 COPY --from=nushell /usr/bin/nu /usr/bin/nu
 RUN printf '/bin/nu\n/usr/bin/nu\n' >> /etc/shells
 
+# Weekly bootc update fetch
+COPY systemd/bootc-fetch-updates.service /usr/lib/systemd/system/
+COPY systemd/bootc-fetch-updates.timer /usr/lib/systemd/system/
+RUN systemctl enable bootc-fetch-updates.timer
+
 COPY yum-repos/custom.repo /etc/yum.repos.d/custom.repo
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
